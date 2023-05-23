@@ -1047,7 +1047,7 @@ class RexProgramTest extends RexProgramTestBase {
 
     checkSimplify3(not(nullBool), "null:BOOLEAN", "false", "true");
     checkSimplify3(ne(vInt(), nullBool), "null:BOOLEAN", "false", "true");
-    checkSimplify3(eq(vInt(), nullBool), "null:BOOLEAN", "false", "true");
+    checkSimplifyUnchanged(eq(vInt(), nullBool));
 
     checkSimplify(plus(vInt(), nullInt), "null:INTEGER");
     checkSimplify(sub(vInt(), nullInt), "null:INTEGER");
@@ -1301,8 +1301,8 @@ class RexProgramTest extends RexProgramTestBase {
             ne(vInt(0), literal(1)),
             eq(vInt(1), nullInt),
             ne(vInt(0), literal(2))),
-        "OR(IS NOT NULL(?0.int0), null)",
-        "IS NOT NULL(?0.int0)",
+        "OR(IS NOT NULL(?0.int0), null, =(?0.int1, null))",
+        "OR(IS NOT NULL(?0.int0), =(?0.int1, null))",
         "true");
   }
 
